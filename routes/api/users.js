@@ -8,6 +8,12 @@ const keys = require('../../config/keys');
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 router.post('/register', (req, res) => {
+    // const { errors, isValid } = validateRegisterInput(req.body);
+
+    // if (!isValid) {
+    //     return res.status(400).json(errors);
+    // }
+
     User.findOne({ username: req.body.username })
       .then(user => {
         if (user) {
@@ -23,7 +29,21 @@ router.post('/register', (req, res) => {
               if (err) throw err;
               newUser.password = hash;
               newUser.save()
-                .then(user => res.json(user))
+                .then(user => {
+                    const payload = { id: user.id, handle: user.handle}
+
+                    jwt.sign(
+                        payload, 
+                        keys.secretOrKey, 
+                        {expiresIn: 3600},
+                        (err, token) => {
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token
+                            })
+                        }
+                    )
+                })
                 .catch(err => console.log(err));
             })
           })
