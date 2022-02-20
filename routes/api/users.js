@@ -5,6 +5,7 @@ const User = require("../../models/User");
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 
+
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 router.post('/register', (req, res) => {
