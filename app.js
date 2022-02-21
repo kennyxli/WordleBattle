@@ -12,6 +12,7 @@ mongoose
   .catch(err => console.log(err));
 
 
+
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
