@@ -6,6 +6,7 @@ const users = require("./routes/api/users");
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
+
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB successfully"))
