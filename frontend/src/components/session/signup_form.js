@@ -1,23 +1,23 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-class LoginForm extends React.Component {
+class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: '',
       password: '',
+      password2: '',
       errors: {}
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
+    this.clearedErrors = false;
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentUser === true) {
-      this.props.history.push('/tweets');
+    if (nextProps.signedIn === true) {
+      this.props.history.push('/login');
     }
 
     this.setState({errors: nextProps.errors})
@@ -31,13 +31,13 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     let user = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      password2: this.state.password2
     };
 
-    this.props.login(user); 
+    this.props.signup(user, this.props.history); 
   }
 
   renderErrors() {
@@ -54,19 +54,25 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="signup-form-container">
         <form onSubmit={this.handleSubmit}>
-          <div>
+          <div className="signup-form">
+            <br/>
               <input type="text"
                 value={this.state.username}
                 onChange={this.update('username')}
                 placeholder="Username"
               />
-            <br/>
               <input type="password"
                 value={this.state.password}
                 onChange={this.update('password')}
                 placeholder="Password"
+              />
+            <br/>
+              <input type="password"
+                value={this.state.password2}
+                onChange={this.update('password2')}
+                placeholder="Confirm Password"
               />
             <br/>
             <input type="submit" value="Submit" />
@@ -78,4 +84,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withRouter(LoginForm);
+export default withRouter(SignupForm);
